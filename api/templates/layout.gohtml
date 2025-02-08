@@ -1,0 +1,16 @@
+{{ define  "layout" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/vendor/main.bundle.css">
+    <title>Title</title>
+</head>
+<body>
+    {{ template "navbar" . }}
+    {{ template "content" . }}
+    {{ template "footer" . }}
+    <script  src="/static/vendor/main.bundle.js"></script>
+</body>
+</html>
+{{ end }}
