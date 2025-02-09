@@ -11,26 +11,31 @@ import (
 	"net/http"
 )
 
+func GetDomainData(w http.ResponseWriter, domains *[]schemas.Domain) {
+
+	resp, err := http.Get("http://localhost:3000/domains")
+	if err != nil {
+		log.Printf("error requesting domains")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err := json.Unmarshal(body, &domains); err != nil {
+		log.Printf("error unmarshalling domains")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
 func DomainHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		domains := []schemas.Domain{}
-		resp, err := http.Get("http://localhost:3000/domains")
-		if err != nil {
-			log.Printf("error requesting domains")
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-
-		}
-		defer resp.Body.Close()
-		body, err := io.ReadAll(resp.Body)
-		if err := json.Unmarshal(body, &domains); err != nil {
-			log.Printf("error unmarshalling domains")
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
+		GetDomainData(w, &domains)
 		templateData := map[string][]schemas.Domain{"Domains": domains}
-		utils.SetTemplate(w, "templates/domains.html", templateData)
+		utils.SetTemplate(w, "templates/domains.gohtml", templateData)
 	}
 	if r.Method == "POST" {
 		c := form_validator.Config{
@@ -56,7 +61,7 @@ func DomainHandler(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				log.Printf("error marshalling JOSN\n")
 				w.WriteHeader(http.StatusInternalServerError)
-				utils.SetTemplate(w, "templates/domains.html", nil)
+				utils.SetTemplate(w, "templates/domains.gohtml", nil)
 				return
 			}
 			client := &http.Client{}
@@ -64,7 +69,6 @@ func DomainHandler(w http.ResponseWriter, r *http.Request) {
 			defer resp.Body.Close()
 			log.Printf("status: %d\n", resp.Status)
 			log.Printf("successfully sent POST request")
-			//w.WriteHeader(http.StatusOK)
 			http.Redirect(w, r, "/domains", http.StatusSeeOther)
 			return
 		} else {
