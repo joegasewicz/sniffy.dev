@@ -1,0 +1,65 @@
+{{ define "content" }}
+
+<div class="domain">
+    <div class="container">
+        <h1>Paths</h1>
+
+        {{ if .Domain }}
+            <div class="domain__domain-name">
+                <button type="button" class="btn btn-primary">
+                    {{ .Domain.Name }} <span class="badge text-bg-secondary">{{ len .Domain.Paths }}</span>
+                </button>
+            </div>
+        {{ end }}
+
+        <form action="/paths">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Select Domain
+                </button>
+                <ul class="dropdown-menu">
+                    {{ range .Domains }}
+                        <li><a class="dropdown-item" href="http://localhost:3001/domain/{{ .ID }}">{{ .Name }}</a></li>
+                    {{ end }}
+                </ul>
+            </div>
+
+        </form>
+
+        {{ if .Domain }}
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Path</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{ range .Domain.Paths }}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>.Path.Name</td>
+                    </tr>
+                {{ end }}
+                <tr>
+                    <th scope="row">#</th>
+                    <td>
+                        <form action="/domain/{{ .Domain.ID }}" class="domain__path-form">
+                            <input type="text" class="form-control" name="path">
+                            <button type="submit" class="btn btn-primary mb-3">Add</button>
+                        </form>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        {{ end }}
+    </div>
+
+
+</div>
+
+{{ end }}

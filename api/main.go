@@ -10,9 +10,9 @@ import (
 const PORT = 3000
 
 func main() {
-
 	mux := http.NewServeMux()
 	mux.HandleFunc("/domains", routes.Domain)
+	mux.HandleFunc("/domains/{id}", routes.PathHandler)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", PORT),
