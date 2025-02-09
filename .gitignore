@@ -1,5 +1,8 @@
 .idea
+*/.idea
 */node_modules
+# Static files
+*/static/vendor
 ### =========================
 ### Golang
 ### =========================

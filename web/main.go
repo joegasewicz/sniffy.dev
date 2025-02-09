@@ -2,18 +2,21 @@ package main
 
 import (
 	"fmt"
-	"github.com/joegasewicz/sniffy.dev/api/routes"
+	"github.com/joegasewicz/sniffy.dev/web/routes"
 	"log"
 	"net/http"
 )
 
-const PORT = 3000
+const PORT = 3001
 
 func main() {
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/domains", routes.Domain)
+	files := http.FileServer(http.Dir("static/"))
+	mux.Handle("/static/", http.StripPrefix("/static/", files))
 
+	mux.HandleFunc("/", routes.HomeHandler)
+	mux.HandleFunc("/domains", routes.DomainHandler)
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", PORT),
 		Handler: mux,
