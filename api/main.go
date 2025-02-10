@@ -12,7 +12,8 @@ const PORT = 3000
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/domains", routes.Domain)
-	mux.HandleFunc("/domains/{id}", routes.PathHandler)
+	mux.HandleFunc("/domains/{id}/paths", routes.PathHandler)
+	//mux.HandleFunc("/domains/{id}/paths",)
 
 	server := &http.Server{
 		Addr:    fmt.Sprintf(":%d", PORT),

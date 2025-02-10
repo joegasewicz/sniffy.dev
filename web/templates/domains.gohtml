@@ -13,7 +13,7 @@
                 <h2>Domains</h2>
                 {{ range .Domains }}
                     <ul>
-                        <li><a href="{{ .Name }}">{{ .Name }}</a></li>
+                        <li><a href="/domain/{{ .ID }}">{{ .Name }}</a></li>
                     </ul>
                 {{ end }}
             </div>
