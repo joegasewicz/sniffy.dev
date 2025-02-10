@@ -18,6 +18,7 @@ func Domain(w http.ResponseWriter, r *http.Request) {
 		err := utils.Database().
 			NewSelect().
 			Model(&domain).
+			Relation("Paths").
 			Scan(ctx)
 		if err != nil {
 			log.Printf("error retrieving domains\n")

@@ -41,13 +41,13 @@
                 {{ range .Domain.Paths }}
                     <tr>
                         <th scope="row">1</th>
-                        <td>.Path.Name</td>
+                        <td>{{ .Name }}</td>
                     </tr>
                 {{ end }}
                 <tr>
                     <th scope="row">#</th>
                     <td>
-                        <form action="/domain/{{ .Domain.ID }}" class="domain__path-form">
+                        <form action="/domain/{{ .Domain.ID }}" method="POST" class="domain__path-form">
                             <input type="text" class="form-control" name="path">
                             <button type="submit" class="btn btn-primary mb-3">Add</button>
                         </form>

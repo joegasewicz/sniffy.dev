@@ -1,7 +1,7 @@
 package schemas
 
 type Path struct {
-	ID       uint64 `json:"id"`
+	ID       uint64 `json:"id,omitempty"`
 	Name     string `json:"name"`
-	DomainID string `json:"domain_id"`
+	DomainID uint64 `json:"domain_id"`
 }
